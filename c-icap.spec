@@ -25,7 +25,6 @@ adaptation and filtering services.
 Summary:	Header files for c-icap library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki c-icap
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for c-icap library.
@@ -78,8 +77,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc README
 %attr(755,root,root) %{_bindir}/c-icap
 %attr(755,root,root) %{_bindir}/c-icap-client
-%attr(755,root,root) %{_bindir}/c-icap-config
-%attr(755,root,root) %{_bindir}/c-icap-libicapapi-config
 %attr(755,root,root) %{_bindir}/c-icap-mkbdb
 %attr(755,root,root) %{_bindir}/c-icap-stretch
 %{_sysconfdir}/c-icap.conf
@@ -102,6 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/c-icap-config
+%attr(755,root,root) %{_bindir}/c-icap-libicapapi-config
 %{_libdir}/libicapapi.so
 %{_includedir}/c_icap
 
