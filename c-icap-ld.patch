@@ -1,0 +1,56 @@
+diff -ur c_icap-0.1.4.orig//Makefile.am c_icap-0.1.4.mod//Makefile.am
+--- c_icap-0.1.4.orig//Makefile.am	2010-06-28 08:38:02.000000000 +0200
++++ c_icap-0.1.4.mod//Makefile.am	2011-03-18 14:24:30.432337377 +0100
+@@ -37,7 +37,7 @@
+ # libicapapi ......
+ libicapapi_la_CFLAGS= -Iinclude/ @ZLIB_ADD_FLAG@ -DCI_BUILD_LIB
+ 
+-libicapapi_la_LIBADD = @ZLIB_ADD_LDFLAG@
++libicapapi_la_LIBADD = @ZLIB_ADD_LDFLAG@ @DL_ADD_FLAG@ @THREADS_LDADD@
+ libicapapi_la_LDFLAGS= -shared -version-info @CICAPLIB_VERSION@
+ 
+ 
+@@ -47,7 +47,7 @@
+                           -DSERVDIR=\"$(SERVICESDIR)\" -DLOGDIR=\"$(LOGDIR)\"  \
+                           -DDATADIR=\"$(DATADIR)\"
+ 
+-c_icap_LDADD = @THREADS_LDADD@ libicapapi.la @DL_ADD_FLAG@
++c_icap_LDADD = libicapapi.la @DL_ADD_FLAG@ @THREADS_LDADD@
+ c_icap_LDFLAGS = -rdynamic -rpath @libdir@ @THREADS_LDFLAGS@
+ 
+ 
+diff -ur c_icap-0.1.4.orig//tests/Makefile.am c_icap-0.1.4.mod//tests/Makefile.am
+--- c_icap-0.1.4.orig//tests/Makefile.am	2010-02-28 16:59:18.000000000 +0100
++++ c_icap-0.1.4.mod//tests/Makefile.am	2011-03-18 14:22:26.226656185 +0100
+@@ -6,7 +6,7 @@
+ #CONFIGDIR=$(sysconfdir)/
+ AM_CFLAGS= -I../include/
+ AM_LDFLAGS = -rdynamic -rpath @libdir@ @THREADS_LDFLAGS@
+-LIBS=@THREADS_LDADD@ ../libicapapi.la @DL_ADD_FLAG@
++LIBS = ../libicapapi.la @DL_ADD_FLAG@ @THREADS_LDADD@
+ 
+ 
+ noinst_PROGRAMS = test_cache test_tables test_headers
+diff -ur c_icap-0.1.4.orig//utils/Makefile.am c_icap-0.1.4.mod//utils/Makefile.am
+--- c_icap-0.1.4.orig//utils/Makefile.am	2010-02-22 23:13:50.000000000 +0100
++++ c_icap-0.1.4.mod//utils/Makefile.am	2011-03-18 14:24:42.852905494 +0100
+@@ -16,16 +16,16 @@
+ #other .....
+ c_icap_client_SOURCES = c-icap-client.c
+ c_icap_client_CFLAGS= -I../include/
+-c_icap_client_LDADD= @THREADS_LDADD@ ../libicapapi.la @DL_ADD_FLAG@
++c_icap_client_LDADD= ../libicapapi.la @DL_ADD_FLAG@ @THREADS_LDADD@
+ c_icap_client_LDFLAGS = -rdynamic -rpath @libdir@ @THREADS_LDFLAGS@
+ 
+ c_icap_mkbdb_SOURCES = c-icap-mkbdb.c
+ c_icap_mkbdb_CFLAGS= -I../include/  @BDB_ADD_FLAG@
+-c_icap_mkbdb_LDADD= @THREADS_LDADD@ ../libicapapi.la @DL_ADD_FLAG@  @BDB_ADD_LDFLAG@
++c_icap_mkbdb_LDADD= ../libicapapi.la @DL_ADD_FLAG@  @BDB_ADD_LDFLAG@ @THREADS_LDADD@
+ c_icap_mkbdb_LDFLAGS = -rdynamic -rpath @libdir@ @THREADS_LDFLAGS@ 
+ 
+ c_icap_stretch_SOURCES = c-icap-stretch.c
+ c_icap_stretch_CFLAGS= -I../include/
+-c_icap_stretch_LDADD = @THREADS_LDADD@ ../libicapapi.la @DL_ADD_FLAG@
++c_icap_stretch_LDADD = ../libicapapi.la @DL_ADD_FLAG@ @THREADS_LDADD@
+ c_icap_stretch_LDFLAGS= @THREADS_LDFLAGS@
+ 
