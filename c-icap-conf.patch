@@ -1,0 +1,85 @@
+diff -ur c_icap-0.1.4.orig//c-icap.conf.in c_icap-0.1.4.mod//c-icap.conf.in
+--- c_icap-0.1.4.orig//c-icap.conf.in	2010-05-29 17:36:42.000000000 +0200
++++ c_icap-0.1.4.mod//c-icap.conf.in	2011-03-18 14:55:07.559710803 +0100
+@@ -119,6 +119,7 @@
+ #	No value
+ # Example:
+ #	User wwwrun
++User	c-icap
+ 
+ # TAG: Group
+ # Format: Group groupname
+@@ -129,6 +130,7 @@
+ #	No value
+ # Example:
+ #	Group nogroup
++Group	nogroup
+ 
+ # TAG: ServerAdmin
+ # Format: ServerAdmin admin_mail
+@@ -154,7 +156,7 @@
+ #	dir is the location of temporary files.
+ # Default:
+ #	TmpDir /var/tmp
+-TmpDir /var/tmp
++TmpDir /tmp
+ 
+ # TAG: MaxMemObject
+ # Format: MaxMemObject bytes
+@@ -180,16 +182,16 @@
+ # Description:
+ #	The location of modules
+ # Default:
+-#	ModulesDir @prefix@/lib/c_icap
+-ModulesDir @prefix@/lib/c_icap
++#	ModulesDir @libdir@/c_icap
++ModulesDir @libdir@/c_icap
+ 
+ # TAG: ServicesDir
+ # Format: ServicesDir dir
+ # Description:
+ #	The location of services
+ # Default:
+-#	ServicesDir @prefix@/lib/c_icap
+-ServicesDir @prefix@/lib/c_icap
++#	ServicesDir @libdir@/c_icap
++ServicesDir @libdir@/c_icap
+ 
+ # TAG: TemplateDir
+ # Format: TemplateDir dir
+@@ -221,8 +223,8 @@
+ #	for more informations.
+ #	It can be used more than once to use multiple magic files.
+ # Default:
+-#	LoadMagicFile @prefix@/etc/c-icap.magic
+-LoadMagicFile @prefix@/etc/c-icap.magic
++#	LoadMagicFile /etc/c-icap.magic
++LoadMagicFile /etc/c-icap.magic
+ 
+ # TAG: RemoteProxyUsers
+ # Format: RemoteProxyUsers onoff
+@@ -443,8 +445,8 @@
+ #	store debugging information, errors and other
+ #	information about the c-icap server.
+ # Default:
+-#	ServerLog @prefix@/var/log/server.log
+-ServerLog @prefix@/var/log/server.log
++#	ServerLog /var/log/server.log
++ServerLog /var/log/server.log
+ 
+ # TAG: AccessLog
+ # Format: AccessLog LogFile [LogFormat] [[!]acl1] [[!]acl2] [...]
+@@ -456,10 +458,10 @@
+ #	This directive can be used more than once to specify more than
+ #	one access log files
+ # Default:
+-#	AccessLog @prefix@/var/log/access.log
++#	AccessLog /var/log/access.log
+ # Example:
+-#	AccessLog @prefix@/var/log/access.log MyFormat all
+-AccessLog @prefix@/var/log/access.log
++#	AccessLog /var/log/access.log MyFormat all
++AccessLog /var/log/access.log
+ 
+ # TAG: Logger
+ # Format: Logger LoggerName
