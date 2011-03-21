@@ -1,0 +1,4 @@
+# c-icap startup configuration file
+
+# Try to define nice-level for running c-icap
+SERVICE_RUN_NICE_LEVEL="+5"
