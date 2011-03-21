@@ -1,0 +1,9 @@
+/var/log/c-icap/[as]*.log {
+	olddir /var/log/archive/c-icap
+	compress
+	create 660 root c-icap
+	postrotate
+		/bin/killall -HUP c-icap
+	endscript
+	sharedscripts
+}
