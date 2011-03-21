@@ -65,6 +65,7 @@ Statyczna biblioteka c-icap.
 %build
 %{__autoconf}
 %configure \
+	--enable-large-files \
 	--sysconfdir=%{_sysconfdir}/c-icap
 %{__automake}
 %{__make}
