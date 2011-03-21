@@ -63,10 +63,7 @@ Statyczna biblioteka c-icap.
 %patch2 -p1
 
 %build
-%{__libtoolize}
-%{__aclocal}
 %{__autoconf}
-%{__autoheader}
 %configure \
 	--sysconfdir=%{_sysconfdir}/c-icap
 %{__automake}
