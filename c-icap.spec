@@ -55,7 +55,8 @@ Statyczna biblioteka c-icap.
 %{__aclocal}
 %{__autoconf}
 %{__autoheader}
-%configure
+%configure \
+	--sysconfdir=%{_sysconfdir}/c-icap
 %{__automake}
 %{__make}
 
@@ -79,8 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/c-icap-client
 %attr(755,root,root) %{_bindir}/c-icap-mkbdb
 %attr(755,root,root) %{_bindir}/c-icap-stretch
-%{_sysconfdir}/c-icap.conf
-%{_sysconfdir}/c-icap.magic
+%{_sysconfdir}/c-icap
 %attr(755,root,root) %{_libdir}/libicapapi.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libicapapi.so.0
 %attr(755,root,root) %{_libdir}/c_icap/bdb_tables.so
@@ -107,8 +107,3 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libicapapi.la
-%attr(755,root,root) %{_libdir}/c_icap/bdb_tables.la
-%attr(755,root,root) %{_libdir}/c_icap/dnsbl_tables.la
-%attr(755,root,root) %{_libdir}/c_icap/ldap_module.la
-%attr(755,root,root) %{_libdir}/c_icap/srv_echo.la
-%attr(755,root,root) %{_libdir}/c_icap/sys_logger.la
