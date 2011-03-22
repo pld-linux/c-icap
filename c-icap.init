@@ -8,7 +8,7 @@
 # description:	c-icap ICAP server
 #
 # processname:	c-icap
-# pidfile:	/var/run/c-icap.pid
+# pidfile:	/var/run/c-icap/c-icap.pid
 # config:	/etc/c-icap/c-icap.conf
 
 # Source function library
@@ -19,6 +19,9 @@
 
 # Get service config
 [ -f /etc/sysconfig/c-icap ] && . /etc/sysconfig/c-icap
+
+# Default pidfile location
+c_icap_pidfile="/var/run/c-icap/c-icap.pid"
 
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
@@ -46,7 +49,7 @@ stop() {
 	if [ -f /var/lock/subsys/c-icap ]; then
 		# Stop daemons.
 		msg_stopping c-icap
-		killproc c-icap
+		killproc --pidfile $c_icap_pidfile c-icap
 		rm -f /var/lock/subsys/c-icap >/dev/null 2>&1
 	else
 		msg_not_running c-icap
@@ -97,7 +100,7 @@ case "$1" in
 	reload
 	;;
   status)
-	status c-icap
+	status --pidfile $c_icap_pidfile c-icap
 	exit $?
 	;;
   *)
