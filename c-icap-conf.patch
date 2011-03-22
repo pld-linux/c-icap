@@ -7,8 +7,8 @@ diff -ur c_icap-0.1.4.orig//c-icap.conf.in c_icap-0.1.4.mod//c-icap.conf.in
  # Default:
 -#	PidFile /var/run/c-icap/c-icap.pid
 -PidFile /var/run/c-icap/c-icap.pid
-+#	PidFile /var/run/c-icap.pid
-+PidFile /var/run/c-icap.pid
++#	PidFile /var/run/c-icap/c-icap.pid
++PidFile /var/run/c-icap/c-icap.pid
  
  # TAG: CommandsSocket
  # Format: CommandsSocket socket_file
