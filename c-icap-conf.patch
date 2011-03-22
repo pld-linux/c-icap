@@ -1,17 +1,6 @@
 diff -ur c_icap-0.1.4.orig//c-icap.conf.in c_icap-0.1.4.mod//c-icap.conf.in
 --- c_icap-0.1.4.orig//c-icap.conf.in	2010-05-29 17:36:42.000000000 +0200
-+++ c_icap-0.1.4.mod//c-icap.conf.in	2011-03-21 10:41:03.879540951 +0100
-@@ -9,8 +9,8 @@
- # Description:
- #	The file to store the pid of the main process of the c-icap server.
- # Default:
--#	PidFile /var/run/c-icap/c-icap.pid
--PidFile /var/run/c-icap/c-icap.pid
-+#	PidFile /var/run/c-icap/c-icap.pid
-+PidFile /var/run/c-icap/c-icap.pid
- 
- # TAG: CommandsSocket
- # Format: CommandsSocket socket_file
++++ c_icap-0.1.4.mod//c-icap.conf.in	2011-03-22 15:02:28.001939700 +0100
 @@ -119,6 +119,7 @@
  #	No value
  # Example:
@@ -39,7 +28,15 @@ diff -ur c_icap-0.1.4.orig//c-icap.conf.in c_icap-0.1.4.mod//c-icap.conf.in
  
  # TAG: MaxMemObject
  # Format: MaxMemObject bytes
-@@ -180,16 +182,16 @@
+@@ -173,23 +175,23 @@
+ #	The acceptable range of levels is between 0 and 10.
+ # Default:
+ #	DebugLevel 1
+-DebugLevel 1
++DebugLevel 0
+ 
+ # TAG: ModulesDir
+ # Format: ModulesDir dir
  # Description:
  #	The location of modules
  # Default:
