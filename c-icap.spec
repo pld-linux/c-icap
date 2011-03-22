@@ -14,6 +14,7 @@ Patch0:		%{name}-ld.patch
 Patch1:		%{name}-align-64bit.patch
 Patch2:		%{name}-conf.patch
 Requires:	%{name}-lib = %{version}-%{release}
+Requires:	rc-scripts >= 0.4.0.12
 URL:		http://c-icap.sourceforge.net/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
