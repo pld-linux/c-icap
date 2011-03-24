@@ -117,9 +117,9 @@ fi
 
 %dir %{_sysconfdir}/c-icap
 %attr(640,root,c-icap) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/c-icap/c-icap.conf
+%attr(640,root,c-icap) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/c-icap/c-icap.magic
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/c-icap
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/c-icap
-%{_sysconfdir}/c-icap/c-icap.magic
 %attr(754,root,root) /etc/rc.d/init.d/c-icap
 %attr(755,root,root) %{_bindir}/c-icap
 %attr(755,root,root) %{_bindir}/c-icap-client
