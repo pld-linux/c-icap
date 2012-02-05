@@ -1,4 +1,5 @@
 /var/log/c-icap/[as]*.log {
+	su root c-icap
 	olddir /var/log/archive/c-icap
 	compress
 	create 660 root c-icap

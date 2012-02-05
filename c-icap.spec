@@ -13,9 +13,10 @@ Source3:	%{name}.logrotate
 Patch0:		%{name}-ld.patch
 Patch1:		%{name}-align-64bit.patch
 Patch2:		%{name}-conf.patch
+URL:		http://c-icap.sourceforge.net/
 Requires:	%{name}-lib = %{version}-%{release}
 Requires:	rc-scripts >= 0.4.0.12
-URL:		http://c-icap.sourceforge.net/
+Conflicts:	logrotate < 3.8.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
