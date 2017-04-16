@@ -1,7 +1,7 @@
 Summary:	C implementation of an ICAP server
 Name:		c-icap
 Version:	0.5.2
-Release:	3
+Release:	4
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
@@ -156,6 +156,7 @@ fi
 %attr(755,root,root) %{_bindir}/c-icap-client
 %attr(755,root,root) %{_bindir}/c-icap-mkbdb
 %attr(755,root,root) %{_bindir}/c-icap-stretch
+%dir %{_libdir}/c_icap
 %attr(755,root,root) %{_libdir}/c_icap/bdb_tables.so
 %attr(755,root,root) %{_libdir}/c_icap/dnsbl_tables.so
 %attr(755,root,root) %{_libdir}/c_icap/ldap_module.so
