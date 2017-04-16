@@ -1,7 +1,7 @@
 Summary:	C implementation of an ICAP server
 Name:		c-icap
 Version:	0.5.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
@@ -50,6 +50,7 @@ Biblioteka c-icap.
 Summary:	Header files for c-icap library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki c-icap
 Group:		Development/Libraries
+Requires:	%{name}-lib = %{version}-%{release}
 
 %description devel
 Header files for c-icap library.
