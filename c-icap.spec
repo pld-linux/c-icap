@@ -1,9 +1,9 @@
 Summary:	C implementation of an ICAP server
 Name:		c-icap
 Version:	0.5.2
-Release:	2
+Release:	3
 License:	BSD
-Group:		Libraries
+Group:		Networking/Daemons
 Source0:	http://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
 # Source0-md5:	c0ad392336eb401d1630174cc67c0f71
 Source1:	%{name}.init
@@ -171,6 +171,7 @@ fi
 %{_mandir}/man8/c-icap-mkbdb.8*
 %{_mandir}/man8/c-icap-stretch.8*
 %dir %{_datadir}/c_icap
+%dir %{_datadir}/c_icap/templates
 %attr(750,c-icap,c-icap) %dir /var/run/c-icap
 %attr(770,root,c-icap) %dir /var/log/archive/c-icap
 %attr(770,root,c-icap) %dir /var/log/c-icap
