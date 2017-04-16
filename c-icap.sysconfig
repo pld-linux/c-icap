@@ -1,4 +1,7 @@
 # c-icap startup configuration file
 
+# Add extra daemon options here
+OPTIONS="-f /etc/c-icap/c-icap.conf"
+
 # Try to define nice-level for running c-icap
 SERVICE_RUN_NICE_LEVEL="+5"

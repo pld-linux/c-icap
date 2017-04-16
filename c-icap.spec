@@ -1,19 +1,30 @@
-#
 Summary:	C implementation of an ICAP server
 Name:		c-icap
-Version:	0.1.4
-Release:	0.1
+Version:	0.5.2
+Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
-# Source0-md5:	e1ce94fe7beaaa9318c3595694b10709
+Source0:	http://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
+# Source0-md5:	c0ad392336eb401d1630174cc67c0f71
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
-Patch0:		%{name}-ld.patch
-Patch1:		%{name}-align-64bit.patch
-Patch2:		%{name}-conf.patch
+Source4:	%{name}.service
+Source5:	%{name}.tmpfiles
+Patch0:		c-icap-conf.patch
 URL:		http://c-icap.sourceforge.net/
+BuildRequires:	bzip2-devel
+BuildRequires:	db-devel
+BuildRequires:	doxygen
+BuildRequires:	libmemcached-devel
+BuildRequires:	openldap-devel
+BuildRequires:	openssl-devel
+BuildRequires:	pcre-devel
+BuildRequires:	rpmbuild(macros) >= 1.647
+BuildRequires:	zlib-devel
+Requires(post,preun):	/sbin/chkconfig
+Requires(post,preun,postun):	systemd-units >= 38
+Requires:	systemd-units >= 0.38
 Requires:	%{name}-lib = %{version}-%{release}
 Requires:	rc-scripts >= 0.4.0.12
 Conflicts:	logrotate < 3.8.0
@@ -61,30 +72,41 @@ Statyczna biblioteka c-icap.
 %prep
 %setup -q -n c_icap-%{version}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
 
 %build
-%{__autoconf}
 %configure \
+	--sysconfdir=%{_sysconfdir}/c-icap \
 	--enable-large-files \
-	--sysconfdir=%{_sysconfdir}/c-icap
-%{__automake}
+	--with-openssl \
+	--with-zlib \
+	--with-bzlib \
+	--with-bdb \
+	--with-ldap \
+	--with-memcached \
+	--with-pcre \
+	--enable-ipv6
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_datadir}/c_icap/templates \
 	$RPM_BUILD_ROOT/etc/{logrotate.d,rc.d/init.d,sysconfig} \
-	$RPM_BUILD_ROOT/var/log{,/archive}/c-icap
-touch $RPM_BUILD_ROOT/var/log/c-icap/{access.log,server.log}
+	$RPM_BUILD_ROOT/var/log{,/archive}/c-icap \
+	$RPM_BUILD_ROOT{%{systemdtmpfilesdir},%{systemdunitdir}}
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/c-icap
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/c-icap
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/logrotate.d/c-icap
+touch $RPM_BUILD_ROOT/var/log/c-icap/{access.log,server.log}
+
+cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/c-icap
+cp -p %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/c-icap
+cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/logrotate.d/c-icap
+cp -p %{SOURCE4} $RPM_BUILD_ROOT/%{systemdunitdir}/c-icap.service
+cp -p %{SOURCE5} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/c-icap.conf
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/c_icap/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -96,18 +118,21 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add c-icap
 %service c-icap restart
+%systemd_post %{name}.service
 
 %preun
 if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del c-icap
 	%service c-icap stop
 fi
+%systemd_preun %{name}.service
 
 %postun
 if [ "$1" = "0" ]; then
 	%userremove c-icap
 	%groupremove c-icap
 fi
+%systemd_reload
 
 %post	lib -p /sbin/ldconfig
 %postun	lib -p /sbin/ldconfig
@@ -119,8 +144,12 @@ fi
 %dir %{_sysconfdir}/c-icap
 %attr(640,root,c-icap) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/c-icap/c-icap.conf
 %attr(640,root,c-icap) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/c-icap/c-icap.magic
+%{_sysconfdir}/c-icap/c-icap.conf.default
+%{_sysconfdir}/c-icap/c-icap.magic.default
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/c-icap
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/c-icap
+%{systemdunitdir}/c-icap.service
+%{systemdtmpfilesdir}/c-icap.conf
 %attr(754,root,root) /etc/rc.d/init.d/c-icap
 %attr(755,root,root) %{_bindir}/c-icap
 %attr(755,root,root) %{_bindir}/c-icap-client
@@ -131,13 +160,16 @@ fi
 %attr(755,root,root) %{_libdir}/c_icap/ldap_module.so
 %attr(755,root,root) %{_libdir}/c_icap/srv_echo.so
 %attr(755,root,root) %{_libdir}/c_icap/sys_logger.so
-%{_mandir}/man8/c-icap.8.gz
-%{_mandir}/man8/c-icap-client.8.gz
-%{_mandir}/man8/c-icap-config.8.gz
-%{_mandir}/man8/c-icap-libicapapi-config.8.gz
-%{_mandir}/man8/c-icap-mkbdb.8.gz
-%{_mandir}/man8/c-icap-stretch.8.gz
-%attr(755,root,root) %dir %{_datadir}/c_icap
+%attr(755,root,root) %{_libdir}/c_icap/memcached_cache.so
+%attr(755,root,root) %{_libdir}/c_icap/shared_cache.so
+%attr(755,root,root) %{_libdir}/c_icap/srv_ex206.so
+%{_mandir}/man8/c-icap.8*
+%{_mandir}/man8/c-icap-client.8*
+%{_mandir}/man8/c-icap-config.8*
+%{_mandir}/man8/c-icap-libicapapi-config.8*
+%{_mandir}/man8/c-icap-mkbdb.8*
+%{_mandir}/man8/c-icap-stretch.8*
+%dir %{_datadir}/c_icap
 %attr(750,c-icap,c-icap) %dir /var/run/c-icap
 %attr(770,root,c-icap) %dir /var/log/archive/c-icap
 %attr(770,root,c-icap) %dir /var/log/c-icap
@@ -146,7 +178,7 @@ fi
 %files lib
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libicapapi.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libicapapi.so.0
+%attr(755,root,root) %ghost %{_libdir}/libicapapi.so.5
 
 %files devel
 %defattr(644,root,root,755)

@@ -28,46 +28,15 @@ diff -ur c_icap-0.1.4.orig//c-icap.conf.in c_icap-0.1.4.mod//c-icap.conf.in
  
  # TAG: MaxMemObject
  # Format: MaxMemObject bytes
-@@ -173,23 +175,23 @@
+@@ -173,7 +175,7 @@
  #	The acceptable range of levels is between 0 and 10.
  # Default:
  #	DebugLevel 1
 -DebugLevel 1
 +DebugLevel 0
  
- # TAG: ModulesDir
- # Format: ModulesDir dir
- # Description:
- #	The location of modules
- # Default:
--#	ModulesDir @prefix@/lib/c_icap
--ModulesDir @prefix@/lib/c_icap
-+#	ModulesDir @libdir@/c_icap
-+ModulesDir @libdir@/c_icap
- 
- # TAG: ServicesDir
- # Format: ServicesDir dir
- # Description:
- #	The location of services
- # Default:
--#	ServicesDir @prefix@/lib/c_icap
--ServicesDir @prefix@/lib/c_icap
-+#	ServicesDir @libdir@/c_icap
-+ServicesDir @libdir@/c_icap
- 
- # TAG: TemplateDir
- # Format: TemplateDir dir
-@@ -221,8 +223,8 @@
- #	for more informations.
- #	It can be used more than once to use multiple magic files.
- # Default:
--#	LoadMagicFile @prefix@/etc/c-icap.magic
--LoadMagicFile @prefix@/etc/c-icap.magic
-+#	LoadMagicFile /etc/c-icap/c-icap.magic
-+LoadMagicFile /etc/c-icap/c-icap.magic
- 
- # TAG: RemoteProxyUsers
- # Format: RemoteProxyUsers onoff
+ # TAG: Pipelining
+ # Format: Pipelining on|off
 @@ -289,7 +291,7 @@
  # Default:
  #	No value
