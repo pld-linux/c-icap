@@ -1,7 +1,7 @@
 Summary:	C implementation of an ICAP server
 Name:		c-icap
 Version:	0.5.5
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
