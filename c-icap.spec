@@ -1,21 +1,23 @@
 Summary:	C implementation of an ICAP server
+Summary(pl.UTF-8):	Implementacja w C serwera ICAP
 Name:		c-icap
-Version:	0.5.5
-Release:	2
+Version:	0.5.12
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
-Source0:	http://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
-# Source0-md5:	9fbcde53b73ea69744fb98c55320ea14
+Source0:	https://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
+# Source0-md5:	d6f2bb2b9e95d33af9d4507104e418d6
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Source5:	%{name}.tmpfiles
 Patch0:		c-icap-conf.patch
-URL:		http://c-icap.sourceforge.net/
+URL:		https://c-icap.sourceforge.net/
 BuildRequires:	bzip2-devel
-BuildRequires:	db-devel
+BuildRequires:	db-devel >= 4.2
 BuildRequires:	doxygen
+BuildRequires:	libbrotli-devel
 BuildRequires:	libmemcached-devel
 BuildRequires:	openldap-devel
 BuildRequires:	openssl-devel
@@ -35,6 +37,11 @@ c-icap is an implementation of an ICAP server. It can be used with
 HTTP proxies that support the ICAP protocol to implement content
 adaptation and filtering services.
 
+%description -l pl.UTF-8
+c-icap to implementacja serwera ICAP. Można go używać z proxy HTTP
+obsługującymi protokół ICAP do implementowania usług adaptowania i
+filtrowania treści.
+
 %package lib
 Summary:	c-icap library
 Summary(pl.UTF-8):	biblioteka c-icap
@@ -51,24 +58,13 @@ Summary:	Header files for c-icap library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki c-icap
 Group:		Development/Libraries
 Requires:	%{name}-lib = %{version}-%{release}
+Obsoletes:	c-icap-static < 0.5.12
 
 %description devel
 Header files for c-icap library.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki c-icap.
-
-%package static
-Summary:	Static c-icap library
-Summary(pl.UTF-8):	Statyczna biblioteka c-icap
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-Static c-icap library.
-
-%description static -l pl.UTF-8
-Statyczna biblioteka c-icap.
 
 %prep
 %setup -q -n c_icap-%{version}
@@ -77,15 +73,15 @@ Statyczna biblioteka c-icap.
 %build
 %configure \
 	--sysconfdir=%{_sysconfdir}/c-icap \
+	--enable-ipv6 \
 	--enable-large-files \
-	--with-openssl \
-	--with-zlib \
-	--with-bzlib \
 	--with-bdb \
+	--with-bzlib \
 	--with-ldap \
 	--with-memcached \
+	--with-openssl \
 	--with-pcre \
-	--enable-ipv6
+	--with-zlib \
 
 %{__make}
 
@@ -107,6 +103,7 @@ cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/logrotate.d/c-icap
 cp -p %{SOURCE4} $RPM_BUILD_ROOT/%{systemdunitdir}/c-icap.service
 cp -p %{SOURCE5} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/c-icap.conf
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libicapapi.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/c_icap/*.la
 
 %clean
@@ -140,8 +137,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README
-
+%doc AUTHORS README TODO
 %dir %{_sysconfdir}/c-icap
 %attr(640,root,c-icap) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/c-icap/c-icap.conf
 %attr(640,root,c-icap) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/c-icap/c-icap.magic
@@ -189,7 +185,3 @@ fi
 %attr(755,root,root) %{_bindir}/c-icap-libicapapi-config
 %{_libdir}/libicapapi.so
 %{_includedir}/c_icap
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libicapapi.la
