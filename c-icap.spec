@@ -68,7 +68,7 @@ Pliki nagłówkowe biblioteki c-icap.
 
 %prep
 %setup -q -n c_icap-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %configure \
