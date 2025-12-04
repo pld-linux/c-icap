@@ -2,7 +2,7 @@ Summary:	C implementation of an ICAP server
 Summary(pl.UTF-8):	Implementacja w C serwera ICAP
 Name:		c-icap
 Version:	0.5.12
-Release:	3
+Release:	4
 License:	BSD
 Group:		Networking/Daemons
 Source0:	https://downloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
@@ -29,6 +29,8 @@ Requires(post,preun,postun):	systemd-units >= 38
 Requires:	systemd-units >= 0.38
 Requires:	%{name}-lib = %{version}-%{release}
 Requires:	rc-scripts >= 0.4.0.12
+Provides:	group(c-icap)
+Provides:	user(c-icap)
 Conflicts:	logrotate < 3.8.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
